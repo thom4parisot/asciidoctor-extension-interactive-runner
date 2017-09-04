@@ -1,13 +1,25 @@
 'use strict';
 
 module.exports = function InteractiveRunnerExtension () {
-  const convert = function convertListingToRunkitEmbed (el){
-    const source = el.textContent;
-    const element = el.parentNode.parentNode;
-    element.innerHTML = '';
+  const convert = function convertListingToRunkitEmbed (element){
+    const code = element.querySelector('code')
+
+    const source = code
+      .textContent
+      .replace(/^["']?use strict["'][; ]*\n/, '');
+
+    code.classList.add('status--loading');
 
     // eslint-disable-next-line no-undef
-    RunKit.createNotebook({ element, source })
+    RunKit.createNotebook({
+      element: element,
+      source: source,
+      onLoad: function(ntbk) {
+        code.classList.remove('status--loading');
+        code.classList.add('status--loaded');
+        code.parentNode.setAttribute('hidden', true);
+      }
+    });
   };
 
   this.treeProcessor(function(){
@@ -18,7 +30,7 @@ module.exports = function InteractiveRunnerExtension () {
 
       if (blocks.length) {
         blocks.forEach(block => {
-          block.addRole('interactive');
+          block.addRole('interactive interactive--javascript');
           block.setAttribute('runtime', 'runkit');
         });
       }
@@ -36,13 +48,12 @@ module.exports = function InteractiveRunnerExtension () {
       const blocks = doc.findBy({ context: 'listing'}, b => b.getAttribute('runtime') === 'runkit');
 
       if (blocks.length) {
-        output = output.replace(/(class="listingblock interactive">)([^\/]+)(<code class="language-javascript")/g, (m, klass, pre, code) => {
-          return klass + pre + code + ' onclick="javascript:convertListingToRunkitEmbed(this)"';
+        output = output.replace(/( class="listingblock interactive interactive--javascript">)/g, (m, klass) => {
+          return ' onclick="javascript:convertListingToRunkitEmbed(this)"' + klass ;
         });
 
-        output += '<script type="text/javascript" src="https://embed.runkit.com/" defer async></script>';
-
-        output += `<script type="text/javascript">${convert.toString()}</script>`;
+        output = output.replace(/(<\/body>|$)/, `<script type="text/javascript" src="https://embed.runkit.com/" defer async></script>
+        <script type="text/javascript">${convert.toString()}</script>\$1`);
       }
 
       return output;
