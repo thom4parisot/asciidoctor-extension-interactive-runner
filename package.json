@@ -1,0 +1,20 @@
+{
+  "name": "asciidoctor-extension-interactive-runner",
+  "version": "1.0.0",
+  "description": "Turn your Asciidoc code listings into interactive playgrounds in web browsers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "exit 0"
+  },
+  "keywords": [
+    "asciidoc",
+    "asciidoctor",
+    "asciidoctor-extension",
+    "runkit",
+    "runner",
+    "interactive",
+    "learn-by-doing"
+  ],
+  "author": "Thomas Parisot (https://oncletom.io)",
+  "license": "MIT"
+}
