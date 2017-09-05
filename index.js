@@ -1,62 +1,41 @@
 'use strict';
 
+const {join} = require('path');
+const {readFileSync} = require('fs');
+
+const docinfoFunctions = require('./src/docinfo.js');
+const css = readFileSync(join(__dirname, 'src', 'style.css')).toString();
+
+const isInteractive = (type) => {
+  return (block) => block.getAttribute('language', type) && block.isOption('interactive');
+};
+
 module.exports = function InteractiveRunnerExtension () {
-  const convert = function convertListingToRunkitEmbed (element){
-    const code = element.querySelector('code')
-
-    const source = code
-      .textContent
-      .replace(/^["']?use strict["'][; ]*\n/, '');
-
-    code.classList.add('status--loading');
-
-    // eslint-disable-next-line no-undef
-    RunKit.createNotebook({
-      element: element,
-      source: source,
-      onLoad: function(ntbk) {
-        code.classList.remove('status--loading');
-        code.classList.add('status--loaded');
-        code.parentNode.setAttribute('hidden', true);
-      }
-    });
-  };
-
   this.treeProcessor(function(){
     var self = this;
 
     self.process(function(doc){
-      const blocks = doc.findBy({ context:'listing' }, b => b.getAttribute('language') === 'javascript' && b.isOption('interactive'));
-
-      if (blocks.length) {
-        blocks.forEach(block => {
+      doc.findBy({ context: 'listing' }, isInteractive('javascript'))
+        .forEach(block => {
           block.addRole('interactive interactive--javascript');
           block.setAttribute('runtime', 'runkit');
         });
-      }
-    })
+    });
   });
 
-  this.postprocessor(function(){
-    var self = this;
+  this.docinfoProcessor(function(){
+    this.process(function(doc){
+      const blocks = doc.findBy({ context: 'listing' }, b => b.isAttribute('runtime', 'runkit'));
 
-    self.process(function(doc, output){
-      if (doc.backend !== 'html5') {
-        return output;
+      if (blocks.length === 0 || doc.backend !== 'html5') {
+        return '';
       }
 
-      const blocks = doc.findBy({ context: 'listing'}, b => b.getAttribute('runtime') === 'runkit');
+      return `<style type="text/css">${css}</style><script src="https://embed.runkit.com/" defer async></script><script>(function(){
+        ${docinfoFunctions.map(f => f.toString()).join('\n')}
 
-      if (blocks.length) {
-        output = output.replace(/( class="listingblock interactive interactive--javascript">)/g, (m, klass) => {
-          return ' onclick="javascript:convertListingToRunkitEmbed(this)"' + klass ;
-        });
-
-        output = output.replace(/(<\/body>|$)/, `<script type="text/javascript" src="https://embed.runkit.com/" defer async></script>
-        <script type="text/javascript">${convert.toString()}</script>\$1`);
-      }
-
-      return output;
+        document.addEventListener('DOMContentLoaded', installEvents);
+      })();</script>`;
     });
   });
 };

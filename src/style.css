@@ -1,0 +1,18 @@
+.interactive--javascript code[data-lang]:before {
+  content: 'make interactive';
+  display: block;
+  color: #00c72b;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.interactive iframe {
+  display: none;
+}
+.interactive.status--loaded iframe {
+  display: block;
+}
+
+.interactive.status--loading {
+  opacity: .5;
+}
