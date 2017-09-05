@@ -4,6 +4,8 @@
 
 As of now, the extension is compatible with **javascript** source code only, handled with the [runkit runner][].
 
+![](demo.gif)
+
 # Install
 
 ```bash
