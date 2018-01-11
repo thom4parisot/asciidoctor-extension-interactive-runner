@@ -16,5 +16,15 @@
     "learn-by-doing"
   ],
   "author": "Thomas Parisot (https://oncletom.io)",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/oncletom/asciidoctor-extension-interactive-runner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oncletom/asciidoctor-extension-interactive-runner/issues"
+  },
   "license": "MIT"
 }
