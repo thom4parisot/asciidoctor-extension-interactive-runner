@@ -12,7 +12,7 @@ const isInteractive = (type) => {
 
 module.exports = function InteractiveRunnerExtension () {
   this.treeProcessor(function(){
-    var self = this;
+    const self = this;
 
     self.process(function(doc){
       doc.findBy({ context: 'listing' }, isInteractive('javascript'))

@@ -22,6 +22,8 @@ function makeListingInteractive (element){
       element.classList.remove('status--loading');
       element.classList.add('status--loaded');
       code.parentNode.setAttribute('hidden', true);
+
+      ntbk.evaluate();
     }
   });
 }
