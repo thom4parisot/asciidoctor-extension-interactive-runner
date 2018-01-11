@@ -1,16 +1,28 @@
 .interactive--javascript code[data-lang]:before {
-  content: 'make interactive';
   display: block;
   color: #00c72b;
   font-weight: bold;
   cursor: pointer;
 }
 
+  [lang="en"] .interactive--javascript code[data-lang]:before {
+    content: "▶ run code";
+  }
+  [lang="fr"] .interactive--javascript code[data-lang]:before {
+    content: "▶ voir le résultat";
+  }
+  .interactive--javascript code[data-label]:before {
+    content: attr(data-label);
+  }
+
 .interactive iframe {
-  display: none;
+  position: absolute;
+  visibility: hidden;
 }
+
 .interactive.status--loaded iframe {
-  display: block;
+  position: inherit;
+  visibility: visible;
 }
 
 .interactive.status--loading {
