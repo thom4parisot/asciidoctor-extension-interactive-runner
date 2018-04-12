@@ -17,6 +17,7 @@ function makeListingInteractive (element){
   RunKit.createNotebook({
     element: element,
     source: source,
+    // mode: 'endpoint',
     onLoad: function(ntbk) {
       element.classList.add('interactive--installed');
       element.classList.remove('status--loading');

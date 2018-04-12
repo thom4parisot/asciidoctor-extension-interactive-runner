@@ -19,6 +19,10 @@ module.exports = function InteractiveRunnerExtension () {
         .forEach(block => {
           block.addRole('interactive interactive--javascript');
           block.setAttribute('runtime', 'runkit');
+
+          if (block.isOption('endpoint')) {
+            block.addRole('interactive--endpoint');
+          }
         });
     });
   });
@@ -31,11 +35,18 @@ module.exports = function InteractiveRunnerExtension () {
         return '';
       }
 
-      return `<style type="text/css">${css}</style><script src="https://embed.runkit.com/" defer async></script><script>(function(){
-        ${docinfoFunctions.map(f => f.toString()).join('\n')}
-
-        document.addEventListener('DOMContentLoaded', installEvents);
-      })();</script>`;
+      return `<style type="text/css">${css}</style>
+<script src="https://embed.runkit.com/" defer async>
+(function(d){
+  const script = d.createElement('script');
+  script.src = 'https://embed.runkit.com/';
+  script.async = true;
+  script.onload(function(){
+    ${docinfoFunctions.map(f => f.toString()).join('\n')}
+    installEvents();
+    document.body.dataset.interactiveRuntime = 'loaded';
+  });
+})(document);</script>`;
     });
   });
 };
