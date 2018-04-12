@@ -6,18 +6,23 @@ function makeListingInteractive (element){
   }
 
   const code = element.querySelector('code');
+  const isEndpoint = element.classList.contains('interactive--endpoint');
+  const mode = isEndpoint ? 'endpoint' : null;
   const source = code
     .textContent
     .replace(/\(\d+\)$/gm, '')
     .replace(/^["']?use strict["'][; ]*\n/, '');
+  const extraSource = isEndpoint
+    ? '\n\nexports.endpoint = server.listeners("request").pop();'
+    : '';
 
   element.classList.add('status--loading');
 
   // eslint-disable-next-line no-undef
   RunKit.createNotebook({
     element: element,
-    source: source,
-    // mode: 'endpoint',
+    source: source + extraSource,
+    mode: mode,
     onLoad: function(ntbk) {
       element.classList.add('interactive--installed');
       element.classList.remove('status--loading');
