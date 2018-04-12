@@ -1,7 +1,7 @@
 'use strict';
 
 function makeListingInteractive (element){
-  if (element.classList.contains('interactive--installed')) {
+  if (element.classList.contains('interactive--installed') || element.classList.contains('status--loading')) {
     return;
   }
 
