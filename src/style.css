@@ -1,14 +1,14 @@
-[interactive-runtime="loaded"] .interactive--javascript code[data-lang]:before {
+[data-interactive-runtime="loaded"] .interactive--javascript code[data-lang]:before {
   display: block;
   color: #00c72b;
   font-weight: bold;
   cursor: pointer;
 }
 
-  [lang="en"] [interactive-runtime="loaded"] .interactive--javascript code[data-lang]:before {
+  [lang="en"] [data-interactive-runtime="loaded"] .interactive--javascript code[data-lang]:before {
     content: "▶ run code";
   }
-  [lang="fr"] [interactive-runtime="loaded"] .interactive--javascript code[data-lang]:before {
+  [lang="fr"] [data-interactive-runtime="loaded"] .interactive--javascript code[data-lang]:before {
     content: "▶ voir le résultat";
   }
   .interactive--javascript code[data-label]:before {

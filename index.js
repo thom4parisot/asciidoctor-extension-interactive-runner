@@ -36,15 +36,18 @@ module.exports = function InteractiveRunnerExtension () {
       }
 
       return `<style type="text/css">${css}</style>
-<script src="https://embed.runkit.com/" defer async>
+<script>
 (function(d){
-  const script = d.createElement('script');
-  script.src = 'https://embed.runkit.com/';
-  script.async = true;
-  script.onload(function(){
-    ${docinfoFunctions.map(f => f.toString()).join('\n')}
-    installEvents();
-    document.body.dataset.interactiveRuntime = 'loaded';
+  document.addEventListener('DOMContentLoaded', function(){
+    const script = d.createElement('script');
+    script.src = 'https://embed.runkit.com/';
+    script.async = true;
+    script.onload = function(){
+      ${docinfoFunctions.map(f => f.toString()).join('\n')}
+      installEvents();
+      document.body.dataset.interactiveRuntime = 'loaded';
+    };
+    document.body.appendChild(script);
   });
 })(document);</script>`;
     });
