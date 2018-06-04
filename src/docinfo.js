@@ -6,22 +6,32 @@ function makeListingInteractive (element){
   }
 
   const code = element.querySelector('code');
+  const nodeVersion = /interactive--runtime--node-([^\s]+)/.exec(element.className)[1];
   const isEndpoint = element.classList.contains('interactive--endpoint');
   const mode = isEndpoint ? 'endpoint' : null;
+  let preamble = '';
 
   const source = code
     .textContent
     .replace(/\(\d+\)$/gm, '')
     .replace(/^["']?use strict["'][; ]*\n/, '');
 
-  const preamble = isEndpoint
-    ? 'process.nextTick(() => { exports.endpoint = server.listeners("request").pop(); })'
-    : '';
+  if (isEndpoint) {
+    preamble = `process.nextTick(() => {
+      if (typeof module.exports === 'function') {
+        exports.endpoint = module.exports;
+      }
+      else if (typeof server !== 'undefined') {
+        exports.endpoint = server.listeners("request").pop();
+      }
+});`
+  }
 
   element.classList.add('status--loading');
 
   // eslint-disable-next-line no-undef
   RunKit.createNotebook({
+    nodeVersion,
     element,
     source,
     mode,
@@ -55,7 +65,7 @@ function installEvents () {
   }
 
   document.querySelector('body').addEventListener('click', function(el) {
-    if (el.target.classList.contains('language-javascript')) {
+    if (el.target.classList.contains('language-javascript') || el.target.classList.contains('language-js')) {
       const parentNode = getParent(
         el.target,
         hasClass('interactive--javascript')
