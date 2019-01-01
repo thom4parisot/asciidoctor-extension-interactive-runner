@@ -1,11 +1,13 @@
 [data-interactive-runtime="loaded"] .interactive--javascript code[data-lang]:before {
-  display: block;
+  background-color: #fcfcfc;
   border: 1px solid #0c2;
   border-radius: 1px;
   color: #0c2;
-  font-weight: bold;
   cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
   padding: .5em 1em;
+  top: -2em;
 }
 
   [lang="en"] [data-interactive-runtime="loaded"] .interactive--javascript code[data-lang]:before {
