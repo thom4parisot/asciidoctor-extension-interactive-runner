@@ -1,8 +1,11 @@
 [data-interactive-runtime="loaded"] .interactive--javascript code[data-lang]:before {
   display: block;
-  color: #00c72b;
+  border: 1px solid #0c2;
+  border-radius: 1px;
+  color: #0c2;
   font-weight: bold;
   cursor: pointer;
+  padding: .5em 1em;
 }
 
   [lang="en"] [data-interactive-runtime="loaded"] .interactive--javascript code[data-lang]:before {

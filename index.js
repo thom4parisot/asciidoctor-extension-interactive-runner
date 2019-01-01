@@ -42,8 +42,8 @@ module.exports = function InteractiveRunnerExtension () {
         return '';
       }
 
-      return `<style type="text/css">${css}</style>
-<script>
+      return `<style type="text/css" class="extension-interactive-runner">${css}</style>
+<script class="extension-interactive-runner">
 (function(d){
   document.addEventListener('DOMContentLoaded', function(){
     const script = d.createElement('script');
