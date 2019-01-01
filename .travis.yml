@@ -1,0 +1,9 @@
+language: node_js
+node_js: node
+
+deploy:
+- provider: npm
+  on:
+    tags: true
+  email: "hi@oncletom.io"
+  api-key: "$NPM_TOKEN"
