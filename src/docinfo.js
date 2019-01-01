@@ -13,7 +13,7 @@ function makeListingInteractive (element){
 
   const source = code
     .textContent
-    .replace(/\(\d+\)$/gm, '')
+    .replace(/\/\/\s*\(\d+\)$/gm, '')
     .replace(/^["']?use strict["'][; ]*\n/, '');
 
   if (isEndpoint) {
