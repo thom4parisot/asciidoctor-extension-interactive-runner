@@ -1,7 +1,7 @@
 {
   "name": "asciidoctor-extension-interactive-runner",
   "version": "1.2.1",
-  "description": "Turn your Asciidoc code listings into interactive playgrounds in web browsers.",
+  "description": "Turn static Asciidoc code listings into interactive playgrounds in web browsers.",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
