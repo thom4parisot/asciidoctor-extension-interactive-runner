@@ -5,7 +5,9 @@ const {readFileSync} = require('fs');
 
 const docinfoFunctions = require('./src/docinfo.js');
 const css = readFileSync(join(__dirname, 'src', 'style.css')).toString();
-const nodeVersion = process.version.split('.').shift();
+
+// The default version of the runner is based on the version of Node running this code
+const DEFAULT_NODE_VERSION = process.version.split('.').shift();
 
 const isInteractive = (type) => {
   return (block) => block.getAttribute('language', type) && block.isOption('interactive');
@@ -18,9 +20,11 @@ module.exports = function InteractiveRunnerExtension () {
     self.process(function(doc){
       doc.findBy({ context: 'listing' }, isInteractive('javascript'))
         .forEach(block => {
+          const nodeVersion = doc.getAttribute('runner-node') || DEFAULT_NODE_VERSION;
+          
           block.addRole('interactive');
           block.addRole('interactive--javascript');
-          block.addRole('interactive--runtime--node-' + nodeVersion);
+          block.addRole(`interactive--runtime--node-${nodeVersion}`);
           block.setAttribute('runtime', 'runkit');
 
           if (block.isOption('endpoint')) {
