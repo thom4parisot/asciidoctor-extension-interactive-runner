@@ -10,7 +10,7 @@ const css = readFileSync(join(__dirname, 'src', 'style.css')).toString();
 const DEFAULT_NODE_VERSION = process.version.split('.').shift();
 
 const isInteractive = (type) => {
-  return (block) => block.getAttribute('language', type) && block.isOption('interactive');
+  return (block) => block.isAttribute('language', type) && block.isOption('interactive');
 };
 
 module.exports = function InteractiveRunnerExtension () {
