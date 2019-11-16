@@ -13,36 +13,35 @@ const isInteractive = (type) => {
   return (block) => block.isAttribute('language', type) && block.isOption('interactive');
 };
 
-module.exports = function InteractiveRunnerExtension () {
-  this.treeProcessor(function(){
-    const self = this;
+const interactiveRunnerTreeProcessor = function(){
+  const self = this;
+  self.process(function(doc){
+    doc.findBy({ context: 'listing' }, isInteractive('javascript'))
+      .forEach(block => {
+        const nodeVersion = doc.getAttribute('runner-node') || DEFAULT_NODE_VERSION;
 
-    self.process(function(doc){
-      doc.findBy({ context: 'listing' }, isInteractive('javascript'))
-        .forEach(block => {
-          const nodeVersion = doc.getAttribute('runner-node') || DEFAULT_NODE_VERSION;
-          
-          block.addRole('interactive');
-          block.addRole('interactive--javascript');
-          block.addRole(`interactive--runtime--node-${nodeVersion}`);
-          block.setAttribute('runtime', 'runkit');
+        block.addRole('interactive');
+        block.addRole('interactive--javascript');
+        block.addRole(`interactive--runtime--node-${nodeVersion}`);
+        block.setAttribute('runtime', 'runkit');
 
-          if (block.isOption('endpoint')) {
-            block.addRole('interactive--endpoint');
-          }
-        });
-    });
+        if (block.isOption('endpoint')) {
+          block.addRole('interactive--endpoint');
+        }
+      });
   });
+};
 
-  this.docinfoProcessor(function(){
-    this.process(function(doc){
-      const blocks = doc.findBy({ context: 'listing' }, b => b.isAttribute('runtime', 'runkit'));
+const interactiveRunnerDocinfoProcessor = function(){
+  const self = this;
+  self.process(function(doc){
+    const blocks = doc.findBy({ context: 'listing' }, b => b.isAttribute('runtime', 'runkit'));
 
-      if (blocks.length === 0 || doc.backend !== 'html5') {
-        return '';
-      }
+    if (blocks.length === 0 || doc.backend !== 'html5') {
+      return '';
+    }
 
-      return `<style type="text/css" class="extension-interactive-runner">${css}</style>
+    return `<style type="text/css" class="extension-interactive-runner">${css}</style>
 <script class="extension-interactive-runner">
 (function(d){
   document.addEventListener('DOMContentLoaded', function(){
@@ -57,6 +56,18 @@ module.exports = function InteractiveRunnerExtension () {
     document.body.appendChild(script);
   });
 })(document);</script>`;
-    });
   });
+};
+
+module.exports.register = function register (registry) {
+  if (typeof registry.register === 'function') {
+    registry.register(function () {
+      this.treeProcessor(interactiveRunnerTreeProcessor)
+      this.docinfoProcessor(interactiveRunnerDocinfoProcessor)
+    })
+  } else if (typeof registry.block === 'function') {
+    registry.treeProcessor(interactiveRunnerTreeProcessor)
+    registry.docinfoProcessor(interactiveRunnerDocinfoProcessor)
+  }
+  return registry
 };

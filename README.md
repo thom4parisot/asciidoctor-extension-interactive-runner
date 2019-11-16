@@ -65,12 +65,12 @@ console.log(process.version);
 ## Asciidoctor Conversion
 
 ```js
-const Asciidoctor = require('asciidoctor.js')();
+const asciidoctor = require('asciidoctor.js')();
 const runnerExtension = require('asciidoctor-extension-interactive-runner');
 
-Asciidoctor.Extensions.register(runnerExtension);
+runnerExtension.register(asciidoctor.Extensions);
 
-Asciidoctor.convertFile('path/to/content.adoc', {
+asciidoctor.convertFile('path/to/content.adoc', {
   to_file: 'path/to/content.html',
   backend: 'html5',
 })
