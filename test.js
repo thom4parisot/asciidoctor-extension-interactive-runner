@@ -4,7 +4,7 @@ const assert = require('assert');
 const asciidoctor = require('asciidoctor.js')();
 const runnerExtension = require('./index.js');
 
-asciidoctor.Extensions.register(runnerExtension);
+runnerExtension.register(asciidoctor.Extensions);
 
 const options = {
   header_footer: true,
