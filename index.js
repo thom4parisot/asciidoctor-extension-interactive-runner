@@ -59,15 +59,18 @@ const interactiveRunnerDocinfoProcessor = function(){
   });
 };
 
+module.exports = function (registry) {
+  registry.treeProcessor(interactiveRunnerTreeProcessor)
+  registry.docinfoProcessor(interactiveRunnerDocinfoProcessor)
+}
+
 module.exports.register = function register (registry) {
   if (typeof registry.register === 'function') {
     registry.register(function () {
       this.treeProcessor(interactiveRunnerTreeProcessor)
       this.docinfoProcessor(interactiveRunnerDocinfoProcessor)
     })
-  } else if (typeof registry.block === 'function') {
-    registry.treeProcessor(interactiveRunnerTreeProcessor)
-    registry.docinfoProcessor(interactiveRunnerDocinfoProcessor)
   }
+
   return registry
 };
