@@ -15,19 +15,19 @@
     "interactive",
     "learn-by-doing"
   ],
-  "author": "Thomas Parisot (https://oncletom.io)",
+  "author": "Thomas Parisot (https://thom4.net)",
   "engines": {
     "node": ">=10.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/oncletom/asciidoctor-extension-interactive-runner.git"
+    "url": "git://github.com/thom4parisot/asciidoctor-extension-interactive-runner.git"
   },
   "bugs": {
-    "url": "https://github.com/oncletom/asciidoctor-extension-interactive-runner/issues"
+    "url": "https://github.com/thom4parisot/asciidoctor-extension-interactive-runner/issues"
   },
   "license": "MIT",
   "devDependencies": {
-    "asciidoctor.js": "^1.5.9"
+    "@asciidoctor/core": "^2.2.6"
   }
 }

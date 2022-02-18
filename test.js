@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('assert');
-const asciidoctor = require('asciidoctor.js')();
+const asciidoctor = require('@asciidoctor/core')();
 const runnerExtension = require('./index.js');
 
 runnerExtension.register(asciidoctor.Extensions);

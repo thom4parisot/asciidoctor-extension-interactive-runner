@@ -54,7 +54,7 @@ You can specify a Node version with the `runner-node` Asciidoc attribute.
 Without specifying it, it is assumed it is the Node version converting the Asciidoc document.
 
 ```adoc
-:runner-node: v11
+:runner-node: v16
 
 [source%interactive,javascript]
 ----
@@ -65,7 +65,7 @@ console.log(process.version);
 ## Asciidoctor Conversion
 
 ```js
-const asciidoctor = require('asciidoctor.js')();
+const asciidoctor = require('@asciidoctor/core')();
 const runnerExtension = require('asciidoctor-extension-interactive-runner');
 
 runnerExtension.register(asciidoctor.Extensions);
