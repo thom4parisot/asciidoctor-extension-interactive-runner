@@ -1,4 +1,4 @@
-# Asciidoctor Interactive Runner [![Build Status](https://travis-ci.com/oncletom/asciidoctor-extension-interactive-runner.svg?branch=master)](https://travis-ci.com/oncletom/asciidoctor-extension-interactive-runner)
+# Asciidoctor Interactive Runner [![.github/workflows/test.yml](https://github.com/thom4parisot/asciidoctor-extension-interactive-runner/actions/workflows/test.yml/badge.svg)](https://github.com/thom4parisot/asciidoctor-extension-interactive-runner/actions/workflows/test.yml)
 
 > Transform static Asciidoc code listings into **interactive playgrounds** in web browsers. Turn them in microservices too!
 
