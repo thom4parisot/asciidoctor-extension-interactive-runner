@@ -8,7 +8,7 @@ function makeListingInteractive (element){
   const code = element.querySelector('code');
   const nodeVersion = /interactive--runtime--node-([^\s]+)/.exec(element.className)[1];
   const isEndpoint = element.classList.contains('interactive--endpoint');
-  const mode = isEndpoint ? 'endpoint' : null;
+  const mode = isEndpoint ? 'endpoint' : 'default';
   let preamble = '';
 
   const source = code
